@@ -14,7 +14,7 @@ class ApiClient {
     }
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl("https://rss.applemarketingtools.com/api")
+            .baseUrl("https://rss.applemarketingtools.com")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okhttpClient)
             .build()

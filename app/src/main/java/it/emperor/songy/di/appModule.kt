@@ -12,6 +12,5 @@ val appModule = module {
     single { ApiClient() }
     factory { get<ApiClient>().createApiService(MusicApi::class.java) }
     single<IMusicRepository> { MusicRepository(get()) }
-
     viewModel { SongListPageViewModel(get()) }
 }

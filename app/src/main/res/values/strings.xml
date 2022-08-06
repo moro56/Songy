@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Songy</string>
+
+    <string name="song_list_title_txt">Play List</string>
 </resources>

@@ -7,6 +7,6 @@ import retrofit2.http.Path
 
 interface MusicApi {
 
-    @GET("v2/us/music/most-played/{limit}/songs.json")
+    @GET("api/v2/us/music/most-played/{limit}/songs.json")
     suspend fun getSongList(@Path("limit") limit: Int): Response<SongsFeedResponse>
 }
