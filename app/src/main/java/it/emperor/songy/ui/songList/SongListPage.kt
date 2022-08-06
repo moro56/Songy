@@ -43,8 +43,10 @@ fun SongListLayout(uiState: SongListPageState) {
         Box(modifier = Modifier.fillMaxSize()) {
             when (uiState.songList) {
                 ApiResponse.Loading -> SongListLoadingLayout()
-                is ApiResponse.Success -> SongListSuccessLayout()
-                is ApiResponse.Error -> SongListErrorLayout()
+                is ApiResponse.Success -> SongListSuccessLayout(uiState.songList.value)
+                is ApiResponse.Error -> SongListErrorLayout(stringResource(id = R.string.song_list_error_message_txt)) {
+
+                }
             }
         }
     }
