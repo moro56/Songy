@@ -1,4 +1,4 @@
-package it.emperor.songy.ui.songList
+package it.emperor.songy.ui.songlist
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -10,16 +10,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import it.emperor.songy.R
 import it.emperor.songy.data.network.models.ApiResponse
-import it.emperor.songy.ui.songList.state.SongListPageState
-import it.emperor.songy.ui.songList.views.SongListErrorLayout
-import it.emperor.songy.ui.songList.views.SongListLoadingLayout
-import it.emperor.songy.ui.songList.views.SongListSuccessLayout
+import it.emperor.songy.navigation.NavDestination
+import it.emperor.songy.navigation.destination
+import it.emperor.songy.ui.songlist.state.SongListPageState
+import it.emperor.songy.ui.songlist.views.SongListErrorLayout
+import it.emperor.songy.ui.songlist.views.SongListLoadingLayout
+import it.emperor.songy.ui.songlist.views.SongListSuccessLayout
 import org.koin.androidx.compose.getViewModel
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
-fun SongListPage() {
+fun SongListPage(navController: NavHostController) {
     val viewModel = getViewModel<SongListPageViewModel>()
     val uiState = viewModel.uiState.collectAsState().value
 
@@ -27,13 +32,22 @@ fun SongListPage() {
         viewModel.loadSongs()
     }
 
-    SongListLayout(uiState) {
+    SongListLayout(uiState, onRetry = {
         viewModel.loadSongs()
-    }
+    }, onClick = {
+        navController.navigate(
+            NavDestination.SONG_DETAILS.destination(
+                URLEncoder.encode(
+                    it,
+                    StandardCharsets.UTF_8.toString()
+                )
+            )
+        )
+    })
 }
 
 @Composable
-fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit) {
+fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit, onClick: (String) -> Unit) {
     Column {
         Text(
             text = stringResource(id = R.string.song_list_title_txt),
@@ -45,7 +59,7 @@ fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit) {
         Box(modifier = Modifier.fillMaxSize()) {
             when (uiState.songList) {
                 ApiResponse.Loading -> SongListLoadingLayout()
-                is ApiResponse.Success -> SongListSuccessLayout(uiState.songList.value)
+                is ApiResponse.Success -> SongListSuccessLayout(uiState.songList.value, onClick)
                 is ApiResponse.Error -> SongListErrorLayout(stringResource(id = R.string.song_list_error_message_txt)) {
                     onRetry.invoke()
                 }
@@ -57,5 +71,5 @@ fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit) {
 @Preview(showSystemUi = true)
 @Composable
 fun SongListLayoutPreview() {
-    SongListLayout(SongListPageState(ApiResponse.Loading)) {}
+    SongListLayout(SongListPageState(ApiResponse.Loading), {}, {})
 }

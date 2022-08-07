@@ -1,4 +1,4 @@
-package it.emperor.songy.ui.songList.views
+package it.emperor.songy.ui.songlist.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
