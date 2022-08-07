@@ -12,7 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import it.emperor.songy.ui.songList.SongListPage
+import it.emperor.songy.ui.songlist.SongListPage
 import it.emperor.songy.ui.theme.SongyTheme
 
 class MainActivity : ComponentActivity() {

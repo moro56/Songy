@@ -1,4 +1,4 @@
-package it.emperor.songy.ui.songList
+package it.emperor.songy.ui.songlist
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -12,10 +12,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.emperor.songy.R
 import it.emperor.songy.data.network.models.ApiResponse
-import it.emperor.songy.ui.songList.state.SongListPageState
-import it.emperor.songy.ui.songList.views.SongListErrorLayout
-import it.emperor.songy.ui.songList.views.SongListLoadingLayout
-import it.emperor.songy.ui.songList.views.SongListSuccessLayout
+import it.emperor.songy.ui.songlist.state.SongListPageState
+import it.emperor.songy.ui.songlist.views.SongListErrorLayout
+import it.emperor.songy.ui.songlist.views.SongListLoadingLayout
+import it.emperor.songy.ui.songlist.views.SongListSuccessLayout
 import org.koin.androidx.compose.getViewModel
 
 @Composable
