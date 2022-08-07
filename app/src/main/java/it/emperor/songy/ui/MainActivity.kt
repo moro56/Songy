@@ -52,7 +52,7 @@ fun NavigationComponent(navController: NavHostController) {
             SongListPage(navController)
         }
         composable(NavDestination.SONG_DETAILS.value()) {
-            SongDetailsPage(it.arguments?.getString("url"))
+            SongDetailsPage(navController, it.arguments?.getString("url") ?: "")
         }
     }
 }
