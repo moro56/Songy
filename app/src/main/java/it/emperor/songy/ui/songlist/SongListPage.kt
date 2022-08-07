@@ -32,22 +32,34 @@ fun SongListPage(navController: NavHostController) {
         viewModel.loadSongs()
     }
 
-    SongListLayout(uiState, onRetry = {
-        viewModel.loadSongs()
-    }, onClick = {
-        navController.navigate(
-            NavDestination.SONG_DETAILS.destination(
-                URLEncoder.encode(
-                    it,
-                    StandardCharsets.UTF_8.toString()
+    SongListLayout(
+        uiState,
+        onRetry = {
+            viewModel.loadSongs()
+        },
+        onClick = {
+            navController.navigate(
+                NavDestination.SONG_DETAILS.destination(
+                    URLEncoder.encode(
+                        it,
+                        StandardCharsets.UTF_8.toString()
+                    )
                 )
             )
-        )
-    })
+        },
+        onShowMore = {
+            viewModel.showMoreSongs()
+        }
+    )
 }
 
 @Composable
-fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit, onClick: (String) -> Unit) {
+fun SongListLayout(
+    uiState: SongListPageState,
+    onRetry: () -> Unit,
+    onClick: (String) -> Unit,
+    onShowMore: () -> Unit
+) {
     Column {
         Text(
             text = stringResource(id = R.string.song_list_title_txt),
@@ -59,7 +71,12 @@ fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit, onClick: (St
         Box(modifier = Modifier.fillMaxSize()) {
             when (uiState.songList) {
                 ApiResponse.Loading -> SongListLoadingLayout()
-                is ApiResponse.Success -> SongListSuccessLayout(uiState.songList.value, onClick)
+                is ApiResponse.Success -> SongListSuccessLayout(
+                    uiState.currentSongs,
+                    uiState.canShowMore,
+                    onClick,
+                    onShowMore
+                )
                 is ApiResponse.Error -> SongListErrorLayout(stringResource(id = R.string.song_list_error_message_txt)) {
                     onRetry.invoke()
                 }
@@ -71,5 +88,5 @@ fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit, onClick: (St
 @Preview(showSystemUi = true)
 @Composable
 fun SongListLayoutPreview() {
-    SongListLayout(SongListPageState(ApiResponse.Loading), {}, {})
+    SongListLayout(SongListPageState(ApiResponse.Loading), {}, {}, {})
 }
