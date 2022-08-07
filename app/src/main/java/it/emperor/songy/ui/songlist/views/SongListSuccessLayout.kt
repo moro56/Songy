@@ -28,15 +28,21 @@ fun SongListSuccessLayout(
     onClick: (String) -> Unit,
     onShowMore: () -> Unit
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 32.dp)
+    Box(
+        modifier = Modifier
+            .padding(top = 16.dp)
+            .fillMaxSize()
     ) {
-        items(songList) {
-            SongView(it, onClick)
-        }
-        if (canShowMore) {
-            renderLoading { onShowMore.invoke() }
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 32.dp)
+        ) {
+            items(songList) {
+                SongView(it, onClick)
+            }
+            if (canShowMore) {
+                renderLoading { onShowMore.invoke() }
+            }
         }
     }
 }
