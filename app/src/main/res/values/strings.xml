@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Songy</string>
+
+    <string name="song_list_title_txt">Play List</string>
+    <string name="song_list_error_message_txt">There was an error when trying to retrieve the song list</string>
+    <string name="song_list_retry_btn">RETRY</string>
 </resources>
