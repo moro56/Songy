@@ -1,5 +1,6 @@
 package it.emperor.songy.ui.songlist.views
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -24,13 +25,13 @@ import com.skydoves.landscapist.glide.GlideImage
 import it.emperor.songy.data.models.Song
 
 @Composable
-fun SongListSuccessLayout(songList: List<Song>) {
+fun SongListSuccessLayout(songList: List<Song>, onClick: (String) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 8.dp, bottom = 32.dp)
     ) {
         items(songList) {
-            SongView(it)
+            SongView(it, onClick)
         }
     }
 }
@@ -44,18 +45,21 @@ fun SongListSuccessLayoutPreview() {
                 "artistName",
                 "name",
                 "release",
-                "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/4d/54/ec/4d54eccd-8e71-4217-cb81-445adc77136b/075679750006.jpg/100x100bb.jpg"
+                "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/4d/54/ec/4d54eccd-8e71-4217-cb81-445adc77136b/075679750006.jpg/100x100bb.jpg",
+                "https://music.apple.com/us/album/free-dem-5s/1617170958?i=1617170971"
             )
         )
-    )
+    ) {}
 }
 
 
 @Composable
-fun SongView(song: Song) {
+fun SongView(song: Song, onClick: (String) -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(bottom = 12.dp)
+        modifier = Modifier
+            .padding(bottom = 8.dp)
+            .clickable { onClick.invoke(song.url) }
     ) {
         GlideImage(
             imageModel = song.artworkUrl100,
@@ -83,7 +87,8 @@ fun SongView(song: Song) {
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption,
             fontSize = 11.sp,
-            color = Color.Gray
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 4.dp)
         )
     }
 }
@@ -96,7 +101,8 @@ fun SongViewPreview() {
             "artistName",
             "name",
             "release",
-            "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/4d/54/ec/4d54eccd-8e71-4217-cb81-445adc77136b/075679750006.jpg/100x100bb.jpg"
+            "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/4d/54/ec/4d54eccd-8e71-4217-cb81-445adc77136b/075679750006.jpg/100x100bb.jpg",
+            "https://music.apple.com/us/album/free-dem-5s/1617170958?i=1617170971"
         )
-    )
+    ) {}
 }

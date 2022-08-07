@@ -12,6 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import it.emperor.songy.navigation.NavDestination
+import it.emperor.songy.navigation.value
+import it.emperor.songy.ui.songdetails.SongDetailsPage
 import it.emperor.songy.ui.songlist.SongListPage
 import it.emperor.songy.ui.theme.SongyTheme
 
@@ -43,10 +46,13 @@ class MainActivity : ComponentActivity() {
 fun NavigationComponent(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = "songList"
+        startDestination = NavDestination.SONG_LIST.value()
     ) {
-        composable("songList") {
-            SongListPage()
+        composable(NavDestination.SONG_LIST.value()) {
+            SongListPage(navController)
+        }
+        composable(NavDestination.SONG_DETAILS.value()) {
+            SongDetailsPage(it.arguments?.getString("url"))
         }
     }
 }
