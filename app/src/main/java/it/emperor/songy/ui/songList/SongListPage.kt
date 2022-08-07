@@ -27,11 +27,13 @@ fun SongListPage() {
         viewModel.loadSongs()
     }
 
-    SongListLayout(uiState)
+    SongListLayout(uiState) {
+        viewModel.loadSongs()
+    }
 }
 
 @Composable
-fun SongListLayout(uiState: SongListPageState) {
+fun SongListLayout(uiState: SongListPageState, onRetry: () -> Unit) {
     Column {
         Text(
             text = stringResource(id = R.string.song_list_title_txt),
@@ -45,7 +47,7 @@ fun SongListLayout(uiState: SongListPageState) {
                 ApiResponse.Loading -> SongListLoadingLayout()
                 is ApiResponse.Success -> SongListSuccessLayout(uiState.songList.value)
                 is ApiResponse.Error -> SongListErrorLayout(stringResource(id = R.string.song_list_error_message_txt)) {
-
+                    onRetry.invoke()
                 }
             }
         }
@@ -55,5 +57,5 @@ fun SongListLayout(uiState: SongListPageState) {
 @Preview(showSystemUi = true)
 @Composable
 fun SongListLayoutPreview() {
-    SongListLayout(SongListPageState(ApiResponse.Loading))
+    SongListLayout(SongListPageState(ApiResponse.Loading)) {}
 }
